@@ -20,7 +20,7 @@ SHORT_OUTPUT=$(echo "${OUTPUT}" | awk 'END{print}')
 FMT_OUTPUT="${SHORT_OUTPUT}
 <details><summary>Show Detail</summary>
 
-\`\`\`diff
+\`\`\`
 ${OUTPUT}
 \`\`\`
 
