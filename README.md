@@ -46,6 +46,7 @@ workflow "Main Workflow" {
     "go imports",
     "go lint",
     "go vet",
+    "staticcheck",
     "go sec",
   ]
 }
