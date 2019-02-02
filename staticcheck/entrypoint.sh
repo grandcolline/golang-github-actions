@@ -23,6 +23,7 @@ COMMENT="## staticcheck Failed
 ${OUTPUT}
 \`\`\`
 
+[Checks Document](https://staticcheck.io/docs/checks)
 "
 
 PAYLOAD=$(echo '{}' | jq --arg body "${COMMENT}" '.body = $body')
