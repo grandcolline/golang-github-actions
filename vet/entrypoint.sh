@@ -18,7 +18,7 @@ fi
 
 COMMENT="## govet Failed
 
-\`\`\`diff
+\`\`\`
 ${OUTPUT}
 \`\`\`
 
