@@ -8,9 +8,8 @@ export GO111MODULE=on
 go mod download
 
 set +e
-OUTPUT=$(sh -c "gosec ${FLAGS} ./... $*" 2>&1)
+gosec -out result.txt ${FLAGS} ./...
 SUCCESS=$?
-echo "${OUTPUT}"
 set -e
 
 if [ ${SUCCESS} -eq 0 ]; then
@@ -24,9 +23,16 @@ fi
 COMMENT="## gosec Failed
 
 \`\`\`
-${OUTPUT}
+$(tail -n 6 result.txt)
 \`\`\`
 
+<details><summary>Show Detail</summary>
+
+\`\`\`
+$(cat result.txt)
+\`\`\`
+
+</details>
 "
 
 PAYLOAD=$(echo '{}' | jq --arg body "${COMMENT}" '.body = $body')
