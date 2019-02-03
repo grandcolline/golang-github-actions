@@ -79,7 +79,7 @@ action "go vet" {
 
 action "staticcheck" {
   uses = "grandcolline/golang-github-actions/staticcheck@v0.1"
-  needs = "filter-to-pr-open-synced"
+  needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
