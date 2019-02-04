@@ -5,6 +5,9 @@ mkdir -p ${APP_DIR} && cp -r ./ ${APP_DIR}
 cd "${APP_DIR}/${GO_ACTION_WORKING_DIR:-.}"
 
 export GO111MODULE=on
+if [ ! -e go.mod ]; then
+	go mod init
+fi
 go mod download
 
 set +e

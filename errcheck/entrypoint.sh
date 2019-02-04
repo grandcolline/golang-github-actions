@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 cd "${GO_ACTION_WORKING_DIR:-.}"
+if [ ! -e go.mod ]; then
+	go mod init
+fi
 go mod download
 
 set +e
