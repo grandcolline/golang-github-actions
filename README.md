@@ -40,7 +40,7 @@ Use [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 `.github/main.workflow`
 
 ```hcl
-workflow "Golang Lint Test Workflow" {
+workflow "Golang Test Workflow" {
   on = "pull_request"
   resolves = [
     "go imports",
