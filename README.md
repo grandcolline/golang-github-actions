@@ -40,13 +40,13 @@ Use [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 .github/main.workflow
 
 ```hcl
-workflow "Main Workflow" {
+workflow "Golang Lint Test Workflow" {
   on = "pull_request"
   resolves = [
     "go imports",
-    "go lint",
     "go vet",
     "staticcheck",
+    "errcheck",
     "go sec",
   ]
 }
@@ -57,19 +57,13 @@ action "filter to pr open synced" {
 }
 
 action "go imports" {
-  uses = "grandcolline/golang-github-actions/imports@v0.1"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "go lint" {
-  uses = "grandcolline/golang-github-actions/lint@v0.1"
+  uses = "grandcolline/golang-github-actions/imports@v0.1.1"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "go vet" {
-  uses = "grandcolline/golang-github-actions/vet@v0.1"
+  uses = "grandcolline/golang-github-actions/vet@v0.1.1"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
@@ -78,14 +72,27 @@ action "go vet" {
 }
 
 action "staticcheck" {
-  uses = "grandcolline/golang-github-actions/staticcheck@v0.1"
+  uses = "grandcolline/golang-github-actions/staticcheck@v0.1.1"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
-action "go sec" {
-  uses = "grandcolline/golang-github-actions/sec@v0.1"
+action "errcheck" {
+  uses = "grandcolline/golang-github-actions/errcheck@v0.1.1"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
+  env = {
+    IGNORE_DEFER = "true"
+  }
 }
+
+action "go sec" {
+  uses = "grandcolline/golang-github-actions/sec@v0.1.1"
+  needs = "filter to pr open synced"
+  secrets = ["GITHUB_TOKEN"]
+  env = {
+    FLAGS = "-exclude=G104"
+  }
+}
+
 ```
