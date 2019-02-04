@@ -3,11 +3,11 @@
 ## Actions
 
 ### Fmt Action
-Runs `gofmt` and comments back on error
+Runs `gofmt` and comments back on error.
 <img src="./assets/fmt.png" alt="Fmt Action" width="80%" />
 
 ### Vet Action
-Runs `go tool vet` and comments back on error
+Runs `go tool vet` and comments back on error.
 <img src="./assets/vet.png" alt="Vet Action" width="80%" />
 
 ### Imports Action
@@ -16,28 +16,28 @@ Use [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/
 <img src="./assets/imports.png" alt="Imports Action" width="80%" />
 
 ### Lint Action
-Runs `golint` and comments back with the output.  
+Runs `golint` and comments back on error.  
 Use [golang.org/x/lint/golint](https://github.com/golang/lint)
 <img src="./assets/lint.png" alt="Lint Action" width="80%" />
 
 ### Staticcheck Action
-Runs `staticcheck` and comments back with the output.  
+Runs `staticcheck` and comments back on error.  
 Use [honnef.co/go/tools/cmd/staticcheck](https://staticcheck.io/)
 <img src="./assets/staticcheck.png" alt="Staticcheck Action" width="80%" />
 
 ### Errcheck Action
-Runs `errcheck` and comments back with the output.  
+Runs `errcheck` and comments back on error.  
 Use [github.com/kisielk/errcheck](https://github.com/kisielk/errcheck)
 <img src="./assets/errcheck.png" alt="Errcheck Action" width="80%" />
 
 ### Sec Action
-Runs `gosec` and comments back with the output.  
+Runs `gosec` and comments back on error.  
 Use [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 <img src="./assets/sec.png" alt="Sec Action" width="80%" />
 
-## Workflow Sample
+## Sample Workflow
 
-.github/main.workflow
+`.github/main.workflow`
 
 ```hcl
 workflow "Golang Lint Test Workflow" {
