@@ -7,7 +7,12 @@ fi
 go mod download
 
 set +e
-OUTPUT=$(sh -c "errcheck ${FLAGS} ./... $*" 2>&1)
+if [ "${IGNORE_DEFER}" = "1" ] || [ "${IGNORE_DEFER}" = "true" ]; then
+    IGNORE_COMMAND="| grep -v defer"
+fi
+
+OUTPUT=$(sh -c "errcheck ${FLAGS} ./... ${IGNORE_COMMAND} $*" 2>&1)
+test -z "${OUTPUT}"
 SUCCESS=$?
 echo "${OUTPUT}"
 set -e
