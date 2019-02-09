@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.11
 
 LABEL "com.github.actions.name"="go vet"
 LABEL "com.github.actions.description"="Run go vet"

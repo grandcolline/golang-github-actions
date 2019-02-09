@@ -57,13 +57,19 @@ action "filter to pr open synced" {
 }
 
 action "go imports" {
-  uses = "grandcolline/golang-github-actions/imports@v0.1.1"
+  uses = "grandcolline/golang-github-actions/imports@v0.1.2"
+  needs = "filter to pr open synced"
+  secrets = ["GITHUB_TOKEN"]
+}
+
+action "go lint" {
+  uses = "grandcolline/golang-github-actions/lint@v0.1.2"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "go vet" {
-  uses = "grandcolline/golang-github-actions/vet@v0.1.1"
+  uses = "grandcolline/golang-github-actions/vet@v0.1.2"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
@@ -72,13 +78,13 @@ action "go vet" {
 }
 
 action "staticcheck" {
-  uses = "grandcolline/golang-github-actions/staticcheck@v0.1.1"
+  uses = "grandcolline/golang-github-actions/staticcheck@v0.1.2"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "errcheck" {
-  uses = "grandcolline/golang-github-actions/errcheck@v0.1.1"
+  uses = "grandcolline/golang-github-actions/errcheck@v0.1.2"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
@@ -87,7 +93,7 @@ action "errcheck" {
 }
 
 action "go sec" {
-  uses = "grandcolline/golang-github-actions/sec@v0.1.1"
+  uses = "grandcolline/golang-github-actions/sec@v0.1.2"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
