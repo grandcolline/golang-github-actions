@@ -3,7 +3,7 @@ set -e
 cd "${GO_ACTION_WORKING_DIR:-.}"
 
 set +e
-OUTPUT=$(sh -c "go tool vet ${FLAGS} . $*" 2>&1)
+OUTPUT=$(sh -c "go vet ${FLAGS} ./... $*" 2>&1)
 SUCCESS=$?
 echo "${OUTPUT}"
 set -e

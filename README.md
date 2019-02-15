@@ -7,7 +7,7 @@ Runs `gofmt` and comments back on error.
 <img src="./assets/fmt.png" alt="Fmt Action" width="80%" />
 
 ### Vet Action
-Runs `go tool vet` and comments back on error.
+Runs `go vet` and comments back on error.
 <img src="./assets/vet.png" alt="Vet Action" width="80%" />
 
 ### Imports Action
