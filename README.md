@@ -10,6 +10,10 @@ Runs `gofmt` and comments back on error.
 Runs `go vet` and comments back on error.
 <img src="./assets/vet.png" alt="Vet Action" width="80%" />
 
+### Shadow Action
+Runs `go vet --vettool=/go/bin/shadow` and comments back on error.
+Use [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
+
 ### Imports Action
 Runs `goimports` and comments back on error.  
 Use [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
@@ -57,34 +61,37 @@ action "filter to pr open synced" {
 }
 
 action "go imports" {
-  uses = "grandcolline/golang-github-actions/imports@v0.1.2"
+  uses = "grandcolline/golang-github-actions/imports@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "go lint" {
-  uses = "grandcolline/golang-github-actions/lint@v0.1.2"
+  uses = "grandcolline/golang-github-actions/lint@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "go vet" {
-  uses = "grandcolline/golang-github-actions/vet@v0.1.2"
+  uses = "grandcolline/golang-github-actions/vet@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
-  env = {
-    FLAGS = "-shadow"
-  }
+}
+
+action "shadow" {
+  uses = "grandcolline/golang-github-actions/shadow@v0.2.0"
+  needs = "filter to pr open synced"
+  secrets = ["GITHUB_TOKEN"]
 }
 
 action "staticcheck" {
-  uses = "grandcolline/golang-github-actions/staticcheck@v0.1.2"
+  uses = "grandcolline/golang-github-actions/staticcheck@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
 }
 
 action "errcheck" {
-  uses = "grandcolline/golang-github-actions/errcheck@v0.1.2"
+  uses = "grandcolline/golang-github-actions/errcheck@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
@@ -93,7 +100,7 @@ action "errcheck" {
 }
 
 action "go sec" {
-  uses = "grandcolline/golang-github-actions/sec@v0.1.2"
+  uses = "grandcolline/golang-github-actions/sec@v0.2.0"
   needs = "filter to pr open synced"
   secrets = ["GITHUB_TOKEN"]
   env = {
