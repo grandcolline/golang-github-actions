@@ -4,7 +4,7 @@ cd "${GO_ACTION_WORKING_DIR:-.}"
 
 set +e
 if test -e "go.mod"; then go mod download; fi
-OUTPUT=$(sh -c "go vet ${FLAGS} ./... $*" 2>&1)
+OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${FLAGS} ./... $*" 2>&1)
 SUCCESS=$?
 echo "${OUTPUT}"
 set -e
@@ -17,7 +17,7 @@ if [ "${GO_ACTION_COMMENT}" = "1" ] || [ "${GO_ACTION_COMMENT}" = "false" ]; the
     exit ${SUCCESS}
 fi
 
-COMMENT="## govet Failed
+COMMENT="## shadow Failed
 
 \`\`\`
 ${OUTPUT}
