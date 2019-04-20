@@ -11,7 +11,7 @@ Runs `go vet` and comments back on error.
 <img src="./assets/vet.png" alt="Vet Action" width="80%" />
 
 ### Shadow Action
-Runs `go vet --vettool=/go/bin/shadow` and comments back on error.
+Runs `go vet --vettool=/go/bin/shadow` and comments back on error.  
 Use [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
 
 ### Imports Action
