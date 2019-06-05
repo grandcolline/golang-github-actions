@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
 cd "${GO_ACTION_WORKING_DIR:-.}"
-if [ ! -e go.mod ]; then
-	go mod init
-fi
-go mod download
+
+if [ ! -e go.mod ]; then go mod init; fi
+for i in {1..3}; do
+	go mod download && break
+done
+if [ $? -ne 0 ]; then exit 1; fi
 
 set +e
 if [ "${IGNORE_DEFER}" = "1" ] || [ "${IGNORE_DEFER}" = "true" ]; then

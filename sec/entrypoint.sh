@@ -5,10 +5,12 @@ mkdir -p ${APP_DIR} && cp -r ./ ${APP_DIR}
 cd "${APP_DIR}/${GO_ACTION_WORKING_DIR:-.}"
 
 export GO111MODULE=on
-if [ ! -e go.mod ]; then
-	go mod init
-fi
-go mod download
+
+if [ ! -e go.mod ]; then go mod init; fi
+for i in {1..3}; do
+	go mod download && break
+done
+if [ $? -ne 0 ]; then exit 1; fi
 
 set +e
 gosec -out result.txt ${FLAGS} ./...

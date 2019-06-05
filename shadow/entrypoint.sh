@@ -2,8 +2,13 @@
 set -e
 cd "${GO_ACTION_WORKING_DIR:-.}"
 
+if [ ! -e go.mod ]; then go mod init; fi
+for i in {1..3}; do
+	go mod download && break
+done
+if [ $? -ne 0 ]; then exit 1; fi
+
 set +e
-if test -e "go.mod"; then go mod download; fi
 OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${FLAGS} ./... $*" 2>&1)
 SUCCESS=$?
 echo "${OUTPUT}"
