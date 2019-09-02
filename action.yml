@@ -1,26 +1,30 @@
-name: 'golang static analysis'
-description: 'static code analysis for golang'
+name: "static analysis checker"
+description: 'static code analysis checker for golang'
 author: 'grandcolline'
 inputs:
-  command:
-    description: 'execute command'
-  wrokingDirectory:
-    description: 'action wroking directory'
+  run:
+    description: "excute command. [errcheck/fmt/imports/lint/sec/shadow/staticcheck/vet]"
+  wroking-directory:
+    description: "action wroking directory."
     default: "."
   comment:
-    description: 'send comment to PR'
+    description: "send comment to PR if true."
     default: true
-  githubToken:
-    description: 'github token'
+  github-token:
+    description: "github token. this is require when comment is true."
   flags:
-    description: 'add flags'
+    description: "add flags"
     default: ""
+  ignore-defer:
+    description: "if this is true, do not detect 'defer' with error. This is only valid when run is errcheck."
+    default: false
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - ${{ inputs.command }}
-    - ${{ inputs.wrokingDirectory }}
+    - ${{ inputs.run }}
+    - ${{ inputs.wroking-directory }}
     - ${{ inputs.comment }}
-    - ${{ inputs.githubToken }}
+    - ${{ inputs.github-token }}
     - ${{ inputs.flags }}
+    - ${{ inputs.ignore-defer }}

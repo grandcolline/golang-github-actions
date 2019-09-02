@@ -4,7 +4,7 @@ set -e
 # ------------------------
 #  Environments
 # ------------------------
-CMD=$1
+RUN=$1
 WORKING_DIR=$2
 SEND_COMMNET=$3
 GITHUB_TOKEN=$4
@@ -241,7 +241,7 @@ ${OUTPUT}
 # ------------------------
 cd ${GITHUB_WORKSPACE}/${WORKING_DIR}
 
-case ${CMD} in
+case ${RUN} in
 	"errcheck" )
 		mod_download
 		check_errcheck
