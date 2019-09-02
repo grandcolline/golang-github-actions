@@ -6,7 +6,6 @@ static code analysis checker for golang.
 
 ### Fmt Action
 Runs `gofmt` and comments back on error.
-<img src="./assets/fmt.png" alt="Fmt Action" width="80%" />
 
 ### Vet Action
 Runs `go vet` and comments back on error.
@@ -58,6 +57,7 @@ jobs:
       with:
         run: imports
         token: ${{ secrets.GITHUB_TOKEN }}
+
   errcheck:
     name: Errcheck
     runs-on: ubuntu-latest
@@ -69,6 +69,7 @@ jobs:
       with:
         run: errcheck
         token: ${{ secrets.GITHUB_TOKEN }}
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -79,6 +80,7 @@ jobs:
       with:
         run: lint
         token: ${{ secrets.GITHUB_TOKEN }}
+
   shadow:
     name: Shadow
     runs-on: ubuntu-latest
@@ -89,6 +91,7 @@ jobs:
       with:
         run: shadow
         token: ${{ secrets.GITHUB_TOKEN }}
+
   staticcheck:
     name: StaticCheck
     runs-on: ubuntu-latest
@@ -99,6 +102,7 @@ jobs:
       with:
         run: staticcheck
         token: ${{ secrets.GITHUB_TOKEN }}
+
   sec:
     name: Sec
     runs-on: ubuntu-latest
