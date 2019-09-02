@@ -1,6 +1,8 @@
 # Golang GitHub Actions
 
-## Actions
+static code analysis checker for golang.
+
+## Runs
 
 ### Fmt Action
 Runs `gofmt` and comments back on error.
@@ -8,104 +10,104 @@ Runs `gofmt` and comments back on error.
 
 ### Vet Action
 Runs `go vet` and comments back on error.
-<img src="./assets/vet.png" alt="Vet Action" width="80%" />
 
 ### Shadow Action
 Runs `go vet --vettool=/go/bin/shadow` and comments back on error.  
-Use [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
+Use: [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
 
 ### Imports Action
 Runs `goimports` and comments back on error.  
-Use [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
+Use: [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
 <img src="./assets/imports.png" alt="Imports Action" width="80%" />
 
 ### Lint Action
 Runs `golint` and comments back on error.  
-Use [golang.org/x/lint/golint](https://github.com/golang/lint)
+Use: [golang.org/x/lint/golint](https://github.com/golang/lint)
 <img src="./assets/lint.png" alt="Lint Action" width="80%" />
 
 ### Staticcheck Action
 Runs `staticcheck` and comments back on error.  
-Use [honnef.co/go/tools/cmd/staticcheck](https://staticcheck.io/)
-<img src="./assets/staticcheck.png" alt="Staticcheck Action" width="80%" />
+Use: [honnef.co/go/tools/cmd/staticcheck](https://staticcheck.io/)
 
 ### Errcheck Action
 Runs `errcheck` and comments back on error.  
-Use [github.com/kisielk/errcheck](https://github.com/kisielk/errcheck)
+Use: [github.com/kisielk/errcheck](https://github.com/kisielk/errcheck)
 <img src="./assets/errcheck.png" alt="Errcheck Action" width="80%" />
 
 ### Sec Action
 Runs `gosec` and comments back on error.  
-Use [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
+Use: [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 <img src="./assets/sec.png" alt="Sec Action" width="80%" />
 
 ## Sample Workflow
 
-`.github/main.workflow`
+`.github/workflows/static.yml`
 
-```hcl
-workflow "Golang Test Workflow" {
-  on = "pull_request"
-  resolves = [
-    "go imports",
-    "go vet",
-    "staticcheck",
-    "errcheck",
-    "go sec",
-  ]
-}
+```yaml
+name: static check
+on: pull_request
 
-action "filter to pr open synced" {
-  uses = "actions/bin/filter@master"
-  args = "action 'opened|synchronize'"
-}
-
-action "go imports" {
-  uses = "grandcolline/golang-github-actions/imports@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "go lint" {
-  uses = "grandcolline/golang-github-actions/lint@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "go vet" {
-  uses = "grandcolline/golang-github-actions/vet@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "shadow" {
-  uses = "grandcolline/golang-github-actions/shadow@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "staticcheck" {
-  uses = "grandcolline/golang-github-actions/staticcheck@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-}
-
-action "errcheck" {
-  uses = "grandcolline/golang-github-actions/errcheck@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-  env = {
-    IGNORE_DEFER = "true"
-  }
-}
-
-action "go sec" {
-  uses = "grandcolline/golang-github-actions/sec@v0.2.0"
-  needs = "filter to pr open synced"
-  secrets = ["GITHUB_TOKEN"]
-  env = {
-    FLAGS = "-exclude=G104"
-  }
-}
-
+jobs:
+  imports:
+    name: Imports
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        run: imports
+        token: ${{ secrets.GITHUB_TOKEN }}
+  errcheck:
+    name: Errcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@versionup
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        run: errcheck
+        token: ${{ secrets.GITHUB_TOKEN }}
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        run: lint
+        token: ${{ secrets.GITHUB_TOKEN }}
+  shadow:
+    name: Shadow
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        run: shadow
+        token: ${{ secrets.GITHUB_TOKEN }}
+  staticcheck:
+    name: StaticCheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        run: staticcheck
+        token: ${{ secrets.GITHUB_TOKEN }}
+  sec:
+    name: Sec
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: check
+      uses: grandcolline/golang-github-actions@v1.0.0
+      with:
+        command: sec
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
+        flags: "-exclude=G104"
 ```
