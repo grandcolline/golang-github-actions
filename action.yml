@@ -1,0 +1,26 @@
+name: 'golang static analysis'
+description: 'static code analysis for golang'
+author: 'grandcolline'
+inputs:
+  command:
+    description: 'execute command'
+  wrokingDirectory:
+    description: 'action wroking directory'
+    default: "."
+  comment:
+    description: 'send comment to PR'
+    default: true
+  githubToken:
+    description: 'github token'
+  flags:
+    description: 'add flags'
+    default: ""
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.command }}
+    - ${{ inputs.wrokingDirectory }}
+    - ${{ inputs.comment }}
+    - ${{ inputs.githubToken }}
+    - ${{ inputs.flags }}
