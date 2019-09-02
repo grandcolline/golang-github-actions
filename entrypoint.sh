@@ -211,6 +211,8 @@ check_staticcheck() {
 \`\`\`
 ${OUTPUT}
 \`\`\`
+
+[Checks Document](https://staticcheck.io/docs/checks)
 "
 	fi
 }

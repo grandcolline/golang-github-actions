@@ -4,36 +4,38 @@ static code analysis checker for golang.
 
 ## Runs
 
-### Fmt Action
+### Fmt
 Runs `gofmt` and comments back on error.
+<img src="./assets/fmt.png" alt="Fmt Action" width="80%" />
 
-### Vet Action
+### Vet
 Runs `go vet` and comments back on error.
 
-### Shadow Action
+### Shadow
 Runs `go vet --vettool=/go/bin/shadow` and comments back on error.  
 Use: [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
 
-### Imports Action
+### Imports
 Runs `goimports` and comments back on error.  
 Use: [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
 <img src="./assets/imports.png" alt="Imports Action" width="80%" />
 
-### Lint Action
+### Lint
 Runs `golint` and comments back on error.  
 Use: [golang.org/x/lint/golint](https://github.com/golang/lint)
 <img src="./assets/lint.png" alt="Lint Action" width="80%" />
 
-### Staticcheck Action
+### Staticcheck
 Runs `staticcheck` and comments back on error.  
 Use: [honnef.co/go/tools/cmd/staticcheck](https://staticcheck.io/)
+<img src="./assets/staticcheck.png" alt="Staticcheck Action" width="80%" />
 
-### Errcheck Action
+### Errcheck
 Runs `errcheck` and comments back on error.  
 Use: [github.com/kisielk/errcheck](https://github.com/kisielk/errcheck)
 <img src="./assets/errcheck.png" alt="Errcheck Action" width="80%" />
 
-### Sec Action
+### Sec
 Runs `gosec` and comments back on error.  
 Use: [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 <img src="./assets/sec.png" alt="Sec Action" width="80%" />
@@ -64,7 +66,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@versionup
       uses: grandcolline/golang-github-actions@v1.0.0
       with:
         run: errcheck
