@@ -1,6 +1,6 @@
 # Golang GitHub Actions
 
-static code analysis checker for golang.
+static code analysis checker for golang. comments back on error to pull request.
 
 ## Runs
 
