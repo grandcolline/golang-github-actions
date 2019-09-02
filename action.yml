@@ -4,13 +4,13 @@ author: 'grandcolline'
 inputs:
   run:
     description: "excute command. [errcheck/fmt/imports/lint/sec/shadow/staticcheck/vet]"
-  wroking-directory:
+  directory:
     description: "action wroking directory."
     default: "."
   comment:
     description: "send comment to PR if true."
     default: true
-  github-token:
+  token:
     description: "github token. this is require when comment is true."
   flags:
     description: "add flags"
@@ -23,8 +23,8 @@ runs:
   image: "Dockerfile"
   args:
     - ${{ inputs.run }}
-    - ${{ inputs.wroking-directory }}
+    - ${{ inputs.directory }}
     - ${{ inputs.comment }}
-    - ${{ inputs.github-token }}
+    - ${{ inputs.token }}
     - ${{ inputs.flags }}
     - ${{ inputs.ignore-defer }}
