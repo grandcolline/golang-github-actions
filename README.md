@@ -112,7 +112,7 @@ jobs:
     - name: check
       uses: grandcolline/golang-github-actions@v1.0.0
       with:
-        command: sec
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: sec
+        token: ${{ secrets.GITHUB_TOKEN }}
         flags: "-exclude=G104"
 ```
