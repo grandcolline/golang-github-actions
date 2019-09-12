@@ -4,20 +4,27 @@ author: "grandcolline"
 inputs:
   run:
     description: "excute command. [errcheck/fmt/imports/lint/sec/shadow/staticcheck/vet]"
+    required: true
   directory:
     description: "action wroking directory."
     default: "."
+    required: false
   comment:
     description: "send comment to PR if true."
     default: true
+    required: false
   token:
     description: "github token. this is require when comment is true."
+    default: ""
+    required: false
   flags:
     description: "add flags"
     default: ""
+    required: false
   ignore-defer:
     description: "if this is true, do not detect 'defer' with error. This is only valid when run is errcheck."
     default: false
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -28,3 +35,6 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.flags }}
     - ${{ inputs.ignore-defer }}
+branding:
+  icon: "alert-triangle"
+  color: "yellow"
