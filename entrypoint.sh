@@ -4,13 +4,6 @@ set -e
 # ------------------------
 #  Environments
 # ------------------------
-RUN=$1
-WORKING_DIR=$2
-SEND_COMMNET=$3
-GITHUB_TOKEN=$4
-FLAGS=$5
-IGNORE_DEFER_ERR=$6
-
 COMMENT=""
 SUCCESS=0
 
@@ -19,11 +12,11 @@ SUCCESS=0
 #  Functions
 # ------------------------
 # send_comment is send ${comment} to pull request.
-# this function use ${GITHUB_TOKEN}, ${COMMENT} and ${GITHUB_EVENT_PATH}
+# this function use ${INPUT_TOKEN}, ${COMMENT} and ${GITHUB_EVENT_PATH}
 send_comment() {
 	PAYLOAD=$(echo '{}' | jq --arg body "${COMMENT}" '.body = $body')
 	COMMENTS_URL=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request.comments_url)
-	curl -s -S -H "Authorization: token ${GITHUB_TOKEN}" --header "Content-Type: application/json" --data "${PAYLOAD}" "${COMMENTS_URL}" > /dev/null
+	curl -s -S -H "Authorization: token ${INPUT_TOKEN}" --header "Content-Type: application/json" --data "${PAYLOAD}" "${COMMENTS_URL}" > /dev/null
 }
 
 # mod_download is getting go modules using go.mod.
@@ -35,12 +28,12 @@ mod_download() {
 
 # check_errcheck is excute "errcheck" and generate ${COMMENT} and ${SUCCESS}
 check_errcheck() {
-	if [ "${IGNORE_DEFER_ERR}" = "true" ]; then
+	if [ "${INPUT_IGNORE_DEFER}" = "true" ]; then
 		IGNORE_COMMAND="| grep -v defer"
 	fi
 
 	set +e
-	OUTPUT=$(sh -c "errcheck ${FLAGS} ./... ${IGNORE_COMMAND} $*" 2>&1)
+	OUTPUT=$(sh -c "errcheck ${INPUT_FLAGS} ./... ${IGNORE_COMMAND} $*" 2>&1)
 	test -z "${OUTPUT}"
 	SUCCESS=$?
 
@@ -49,7 +42,7 @@ check_errcheck() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ errcheck Failed
 \`\`\`
 ${OUTPUT}
@@ -70,7 +63,7 @@ check_fmt() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		FMT_OUTPUT=""
 		for file in ${UNFMT_FILES}; do
 			FILE_DIFF=$(gofmt -d -e "${file}" | sed -n '/@@.*/,//{/@@.*/d;p}')
@@ -102,7 +95,7 @@ check_imports() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		FMT_OUTPUT=""
 		for file in ${UNFMT_FILES}; do
 			FILE_DIFF=$(goimports -d -e "${file}" | sed -n '/@@.*/,//{/@@.*/d;p}')
@@ -134,7 +127,7 @@ check_lint() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ golint Failed
 $(echo "${OUTPUT}" | awk 'END{print}')
 <details><summary>Show Detail</summary>
@@ -150,7 +143,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # check_sec is excute gosec and generate ${COMMENT} and ${SUCCESS}
 check_sec() {
 	set +e
-	gosec -out result.txt ${FLAGS} ./...
+	gosec -out result.txt ${INPUT_FLAGS} ./...
 	SUCCESS=$?
 
 	set -e
@@ -158,7 +151,7 @@ check_sec() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ gosec Failed
 \`\`\`
 $(tail -n 6 result.txt)
@@ -178,7 +171,7 @@ $(cat result.txt)
 # check_shadow is excute "go vet -vettool=/go/bin/shadow" and generate ${COMMENT} and ${SUCCESS}
 check_shadow() {
 	set +e
-	OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${FLAGS} ./... $*" 2>&1)
+	OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${INPUT_FLAGS} ./... $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -186,7 +179,7 @@ check_shadow() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ shadow Failed
 \`\`\`
 ${OUTPUT}
@@ -198,7 +191,7 @@ ${OUTPUT}
 # check_staticcheck is excute "staticcheck" and generate ${COMMENT} and ${SUCCESS}
 check_staticcheck() {
 	set +e
-	OUTPUT=$(sh -c "staticcheck ${FLAGS} ./... $*" 2>&1)
+	OUTPUT=$(sh -c "staticcheck ${INPUT_FLAGS} ./... $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -206,7 +199,7 @@ check_staticcheck() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ staticcheck Failed
 \`\`\`
 ${OUTPUT}
@@ -220,7 +213,7 @@ ${OUTPUT}
 # check_vet is excute "go vet" and generate ${COMMENT} and ${SUCCESS}
 check_vet() {
 	set +e
-	OUTPUT=$(sh -c "go vet ${FLAGS} ./... $*" 2>&1)
+	OUTPUT=$(sh -c "go vet ${INPUT_FLAGS} ./... $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -228,7 +221,7 @@ check_vet() {
 		return
 	fi
 
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		COMMENT="## ⚠ vet Failed
 \`\`\`
 ${OUTPUT}
@@ -241,9 +234,9 @@ ${OUTPUT}
 # ------------------------
 #  Main Flow
 # ------------------------
-cd ${GITHUB_WORKSPACE}/${WORKING_DIR}
+cd ${GITHUB_WORKSPACE}/${INPUT_DIRECTORY}
 
-case ${RUN} in
+case ${INPUT_RUN} in
 	"errcheck" )
 		mod_download
 		check_errcheck
@@ -282,7 +275,7 @@ esac
 if [ ${SUCCESS} -ne 0 ]; then
 	echo "Check Failed!!"
 	echo ${COMMENT}
-	if [ "${SEND_COMMNET}" = "true" ]; then
+	if [ "${INPUT_COMMNET}" = "true" ]; then
 		send_comment
 	fi
 fi

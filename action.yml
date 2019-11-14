@@ -21,20 +21,13 @@ inputs:
     description: "add flags"
     default: ""
     required: false
-  ignore-defer:
+  ignore_defer:
     description: "if this is true, do not detect 'defer' with error. This is only valid when run is errcheck."
     default: false
     required: false
 runs:
   using: "docker"
   image: "Dockerfile"
-  args:
-    - ${{ inputs.run }}
-    - ${{ inputs.directory }}
-    - ${{ inputs.comment }}
-    - ${{ inputs.token }}
-    - ${{ inputs.flags }}
-    - ${{ inputs.ignore-defer }}
 branding:
   icon: "alert-triangle"
   color: "yellow"
