@@ -1,4 +1,4 @@
-FROM golang:1.14.3
+FROM golang:1.15.2
 
 ENV GO111MODULE=on
 
@@ -14,4 +14,3 @@ RUN apt-get update && \
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
