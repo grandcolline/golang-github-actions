@@ -237,6 +237,26 @@ ${OUTPUT}
 	fi
 }
 
+# check_misspelling is excute "misspell" and generate ${COMMENT} and ${SUCCESS}
+check_misspelling() {
+	set +e
+	OUTPUT=$(sh -c "misspell ${FLAGS} -error . $*" 2>&1)
+	SUCCESS=$?
+
+	set -e
+	if [ ${SUCCESS} -eq 0 ]; then
+		return
+	fi
+
+	if [ "${SEND_COMMNET}" = "true" ]; then
+		COMMENT="## ⚠ misspell Failed
+\`\`\`
+${OUTPUT}
+\`\`\`
+"
+	fi
+}
+
 
 # ------------------------
 #  Main Flow
@@ -272,6 +292,10 @@ case ${RUN} in
 	"vet" )
 		mod_download
 		check_vet
+		;;
+	"misspell" )
+		mod_download
+		check_misspelling
 		;;
 	* )
 		echo "Invalid command"
