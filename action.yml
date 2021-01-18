@@ -6,7 +6,7 @@ inputs:
     description: "excute command. [errcheck/fmt/imports/lint/sec/shadow/staticcheck/vet]"
     required: true
   directory:
-    description: "action wroking directory."
+    description: "action working directory."
     default: "."
     required: false
   comment:
