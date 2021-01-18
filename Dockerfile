@@ -11,7 +11,8 @@ RUN apt-get update && \
 	github.com/securego/gosec/cmd/gosec \
 	golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow \
 	honnef.co/go/tools/cmd/staticcheck \
-	github.com/client9/misspell/cmd/misspell
+	github.com/client9/misspell/cmd/misspell \
+	github.com/gordonklaus/ineffassign
 
 
 COPY entrypoint.sh /entrypoint.sh

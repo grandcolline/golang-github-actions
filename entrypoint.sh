@@ -257,6 +257,26 @@ ${OUTPUT}
 	fi
 }
 
+# check_ineffassign is excute "ineffassign" and generate ${COMMENT} and ${SUCCESS}
+check_ineffassign() {
+	set +e
+	OUTPUT=$(sh -c "ineffassign ./... $*" 2>&1)
+	SUCCESS=$?
+
+	set -e
+	if [ ${SUCCESS} -eq 0 ]; then
+		return
+	fi
+
+	if [ "${SEND_COMMNET}" = "true" ]; then
+		COMMENT="## ⚠ ineffassign Failed
+\`\`\`
+${OUTPUT}
+\`\`\`
+"
+	fi
+}
+
 
 # ------------------------
 #  Main Flow
@@ -296,6 +316,10 @@ case ${RUN} in
 	"misspell" )
 		mod_download
 		check_misspelling
+		;;
+	"ineffassign" )
+		mod_download
+		check_ineffassign
 		;;
 	* )
 		echo "Invalid command"
