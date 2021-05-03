@@ -61,8 +61,8 @@ ${OUTPUT}
 # check_fmt is excute "go fmt" and generate ${COMMENT} and ${SUCCESS}
 check_fmt() {
 	set +e
-	UNFMT_FILES=$(sh -c "gofmt -l -s . $*" 2>&1)
-	test -z "${UNFMT_FILES}"
+	OUTPUT=$(sh -c "gofmt -l -s . $*" 2>&1)
+	test -z "${OUTPUT}"
 	SUCCESS=$?
 
 	set -e
@@ -72,7 +72,7 @@ check_fmt() {
 
 	if [ "${SEND_COMMNET}" = "true" ]; then
 		FMT_OUTPUT=""
-		for file in ${UNFMT_FILES}; do
+		for file in ${OUTPUT}; do
 			FILE_DIFF=$(gofmt -d -e "${file}" | sed -n '/@@.*/,//{/@@.*/d;p}')
 			FMT_OUTPUT="${FMT_OUTPUT}
 <details><summary><code>${file}</code></summary>
@@ -93,8 +93,8 @@ ${FMT_OUTPUT}
 # check_imports is excute go imports and generate ${COMMENT} and ${SUCCESS}
 check_imports() {
 	set +e
-	UNFMT_FILES=$(sh -c "goimports -l . $*" 2>&1)
-	test -z "${UNFMT_FILES}"
+	OUTPUT=$(sh -c "goimports -l . $*" 2>&1)
+	test -z "${OUTPUT}"
 	SUCCESS=$?
 
 	set -e
@@ -104,7 +104,7 @@ check_imports() {
 
 	if [ "${SEND_COMMNET}" = "true" ]; then
 		FMT_OUTPUT=""
-		for file in ${UNFMT_FILES}; do
+		for file in ${OUTPUT}; do
 			FILE_DIFF=$(goimports -d -e "${file}" | sed -n '/@@.*/,//{/@@.*/d;p}')
 			FMT_OUTPUT="${FMT_OUTPUT}
 <details><summary><code>${file}</code></summary>
@@ -281,7 +281,7 @@ esac
 
 if [ ${SUCCESS} -ne 0 ]; then
 	echo "Check Failed!!"
-	echo ${COMMENT}
+	echo ${OUTPUT}
 	if [ "${SEND_COMMNET}" = "true" ]; then
 		send_comment
 	fi
