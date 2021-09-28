@@ -1,4 +1,4 @@
-FROM golang:1.15.2
+FROM golang:1.17
 
 ENV GO111MODULE=on
 
