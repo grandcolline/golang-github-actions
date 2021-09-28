@@ -61,7 +61,7 @@ ${OUTPUT}
 # check_fmt is excute "go fmt" and generate ${COMMENT} and ${SUCCESS}
 check_fmt() {
 	set +e
-	UNFMT_FILES=$(sh -c "gofmt -l -s . $*" 2>&1)
+	UNFMT_FILES=$(sh -c "gofmt -l . $*" 2>&1)
 	test -z "${UNFMT_FILES}"
 	SUCCESS=$?
 
