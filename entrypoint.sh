@@ -40,7 +40,8 @@ check_errcheck() {
 	fi
 
 	set +e
-	OUTPUT=$(sh -c "errcheck ${FLAGS} ./... ${IGNORE_COMMAND} $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "errcheck ${FLAGS} $(go list ./... | grep -v /tests/) ${IGNORE_COMMAND} $*" 2>&1)
 	test -z "${OUTPUT}"
 	SUCCESS=$?
 
@@ -126,7 +127,8 @@ ${FMT_OUTPUT}
 # check_lint is excute golint and generate ${COMMENT} and ${SUCCESS}
 check_lint() {
 	set +e
-	OUTPUT=$(sh -c "golint -set_exit_status ./... $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "golint -set_exit_status $(go list ./... | grep -v /tests/) $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -150,7 +152,8 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # check_sec is excute gosec and generate ${COMMENT} and ${SUCCESS}
 check_sec() {
 	set +e
-	gosec -out result.txt ${FLAGS} ./...
+	# exclude tests folder by default
+	gosec -out result.txt ${FLAGS} $(go list ./... | grep -v /tests/)
 	SUCCESS=$?
 
 	set -e
@@ -178,7 +181,8 @@ $(cat result.txt)
 # check_shadow is excute "go vet -vettool=/go/bin/shadow" and generate ${COMMENT} and ${SUCCESS}
 check_shadow() {
 	set +e
-	OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${FLAGS} ./... $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "go vet -vettool=/go/bin/shadow ${FLAGS} $(go list ./... | grep -v /tests/) $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -198,7 +202,8 @@ ${OUTPUT}
 # check_staticcheck is excute "staticcheck" and generate ${COMMENT} and ${SUCCESS}
 check_staticcheck() {
 	set +e
-	OUTPUT=$(sh -c "staticcheck ${FLAGS} ./... $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "staticcheck ${FLAGS} $(go list ./... | grep -v /tests/) $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -220,7 +225,8 @@ ${OUTPUT}
 # check_vet is excute "go vet" and generate ${COMMENT} and ${SUCCESS}
 check_vet() {
 	set +e
-	OUTPUT=$(sh -c "go vet ${FLAGS} ./... $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "go vet ${FLAGS} $(go list ./... | grep -v /tests/) $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -240,6 +246,7 @@ ${OUTPUT}
 # check_misspelling is excute "misspell" and generate ${COMMENT} and ${SUCCESS}
 check_misspelling() {
 	set +e
+	# exclude tests folder by default
 	OUTPUT=$(sh -c "misspell ${FLAGS} -error . $*" 2>&1)
 	SUCCESS=$?
 
@@ -260,7 +267,8 @@ ${OUTPUT}
 # check_ineffassign is excute "ineffassign" and generate ${COMMENT} and ${SUCCESS}
 check_ineffassign() {
 	set +e
-	OUTPUT=$(sh -c "ineffassign ./... $*" 2>&1)
+	# exclude tests folder by default
+	OUTPUT=$(sh -c "ineffassign $(go list ./... | grep -v /tests/) $*" 2>&1)
 	SUCCESS=$?
 
 	set -e
@@ -281,7 +289,7 @@ ${OUTPUT}
 # ------------------------
 #  Main Flow
 # ------------------------
-cd ${GITHUB_WORKSPACE}/${WORKING_DIR}
+#cd ${GITHUB_WORKSPACE}/${WORKING_DIR}
 
 case ${RUN} in
 	"errcheck" )
