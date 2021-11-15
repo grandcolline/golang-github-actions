@@ -11,7 +11,7 @@ inputs:
     required: false
   comment:
     description: "send comment to PR if true."
-    default: true
+    default: "true"
     required: false
   token:
     description: "github token. this is require when comment is true."
@@ -23,7 +23,7 @@ inputs:
     required: false
   ignore-defer:
     description: "if this is true, do not detect 'defer' with error. This is only valid when run is errcheck."
-    default: false
+    default: "false"
     required: false
 runs:
   using: "docker"
