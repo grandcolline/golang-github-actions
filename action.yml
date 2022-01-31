@@ -25,6 +25,10 @@ inputs:
     description: "if this is true, do not detect 'defer' with error. This is only valid when run is errcheck."
     default: false
     required: false
+  exclude:
+    description: "paths to exclude from checks."
+    default: ""
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -35,6 +39,7 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.flags }}
     - ${{ inputs.ignore-defer }}
+    - ${{ inputs.exclude }}
 branding:
   icon: "alert-triangle"
   color: "yellow"
