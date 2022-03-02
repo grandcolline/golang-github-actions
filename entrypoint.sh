@@ -10,6 +10,7 @@ SEND_COMMNET=$3
 GITHUB_TOKEN=$4
 FLAGS=$5
 IGNORE_DEFER_ERR=$6
+EXCLUDE=$7
 
 COMMENT=""
 SUCCESS=0
@@ -37,6 +38,10 @@ mod_download() {
 check_errcheck() {
 	if [ "${IGNORE_DEFER_ERR}" = "true" ]; then
 		IGNORE_COMMAND="| grep -v defer"
+	fi
+
+	if [ -n "${EXCLUDE}" ]; then
+		FLAGS="-ignorepkg ${EXCLUDE} ${FLAGS}"
 	fi
 
 	set +e
