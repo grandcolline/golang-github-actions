@@ -12,31 +12,31 @@ Runs `gofmt` and comments back on error.
 Runs `go vet` and comments back on error.
 
 ### Shadow
-Runs `go vet --vettool=/go/bin/shadow` and comments back on error.  
+Runs `go vet --vettool=/go/bin/shadow` and comments back on error.
 Use: [golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow](https://godoc.org/golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow)
 
 ### Imports
-Runs `goimports` and comments back on error.  
+Runs `goimports` and comments back on error.
 Use: [golang.org/x/tools/cmd/goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
 <img src="./assets/imports.png" alt="Imports Action" width="80%" />
 
 ### Lint
-Runs `golint` and comments back on error.  
+Runs `golint` and comments back on error.
 Use: [golang.org/x/lint/golint](https://github.com/golang/lint)
 <img src="./assets/lint.png" alt="Lint Action" width="80%" />
 
 ### Staticcheck
-Runs `staticcheck` and comments back on error.  
+Runs `staticcheck` and comments back on error.
 Use: [honnef.co/go/tools/cmd/staticcheck](https://staticcheck.io/)
 <img src="./assets/staticcheck.png" alt="Staticcheck Action" width="80%" />
 
 ### Errcheck
-Runs `errcheck` and comments back on error.  
+Runs `errcheck` and comments back on error.
 Use: [github.com/kisielk/errcheck](https://github.com/kisielk/errcheck)
 <img src="./assets/errcheck.png" alt="Errcheck Action" width="80%" />
 
 ### Sec
-Runs `gosec` and comments back on error.  
+Runs `gosec` and comments back on error.
 Use: [github.com/securego/gosec/cmd/gosec](https://github.com/securego/gosec)
 <img src="./assets/sec.png" alt="Sec Action" width="80%" />
 
@@ -55,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: imports
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +66,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: errcheck
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -77,7 +77,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: lint
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -88,7 +88,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: shadow
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -99,7 +99,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: staticcheck
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -110,7 +110,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: check
-      uses: grandcolline/golang-github-actions@v1.1.0
+      uses: k8s-school/golang-github-actions@v1.1.2
       with:
         run: sec
         token: ${{ secrets.GITHUB_TOKEN }}
