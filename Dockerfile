@@ -1,11 +1,11 @@
-FROM golang:1.17-buster
+FROM golang:1.19.2-bullseye
 
 ENV GO111MODULE=on
 
 RUN apt-get update && \
 	apt-get -y install jq
 
-RUN go install github.com/kisielk/errcheck@v1.6.0
+RUN go install github.com/kisielk/errcheck@v1.6.2
 RUN go install golang.org/x/tools/cmd/goimports@latest
 RUN go install golang.org/x/lint/golint@latest
 RUN go install github.com/securego/gosec/cmd/gosec@latest
