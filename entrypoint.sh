@@ -150,7 +150,7 @@ $(echo "${OUTPUT}" | sed -e '$d')
 # check_sec is excute gosec and generate ${COMMENT} and ${SUCCESS}
 check_sec() {
 	set +e
-	gosec -out result.txt ${FLAGS} ./...
+	gosec -fmt=text -out=result.txt ${FLAGS} ./...
 	SUCCESS=$?
 
 	set -e
